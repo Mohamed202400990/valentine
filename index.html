@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Valentine ❤️</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ff758c, #ff7eb3);
+      min-height: 100vh;
+      overflow-x: hidden;
+      color: #fff;
+    }
+
+    /* INTRO */
+    #intro {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    #intro h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 4rem;
+      margin-bottom: 30px;
+    }
+
+    .choice-btn {
+      padding: 14px 32px;
+      font-size: 18px;
+      border-radius: 40px;
+      border: none;
+      cursor: pointer;
+      margin: 10px;
+      transition: 0.3s;
+    }
+
+    .choice-btn.yes {
+      background: #ff4d6d;
+      color: white;
+    }
+
+    .choice-btn.yes:hover {
+      transform: scale(1.1);
+    }
+
+    .choice-btn.no {
+      background: #ddd;
+      color: #333;
+      position: relative;
+    }
+
+    /* MAIN CONTENT */
+    #mainContent {
+      display: none;
+    }
+
+    header {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    header h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 4rem;
+    }
+
+    /* WIDE SECTION */
+    section {
+      padding: 80px 3%; /* MAX WIDTH */
+      background: #fff;
+      color: #333;
+    }
+
+    section h2 {
+      text-align: center;
+      font-family: 'Great Vibes', cursive;
+      font-size: 3rem;
+      margin-bottom: 40px;
+      color: #ff4d6d;
+    }
+
+    /* GALLERY */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 20px;
+      width: 100%;
+      max-width: 1800px; /* CINEMATIC WIDTH */
+      margin: auto;
+    }
+
+    @media (max-width: 1000px) {
+      .gallery {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 550px) {
+      .gallery {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .gallery img {
+      width: 100%;
+      height: 600px;
+      object-fit: cover;
+      border-radius: 24px;
+      transition: 0.6s ease;
+    }
+
+    /* SURPRISE EFFECT */
+    .photo-wrapper {
+      position: relative;
+      cursor: pointer;
+      overflow: hidden;
+      border-radius: 24px;
+    }
+
+    .photo-wrapper img {
+      filter: blur(18px) brightness(0.6);
+    }
+
+    .photo-wrapper.revealed img {
+      filter: blur(0) brightness(1);
+      transform: scale(1.05);
+    }
+
+    .reveal-text {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: white;
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .photo-wrapper.revealed .reveal-text {
+      display: none;
+    }
+
+    /* LOVE TEXT */
+    .love-text {
+      text-align: center;
+      max-width: 800px;
+      margin: auto;
+      font-size: 1.15rem;
+      line-height: 1.9;
+    }
+
+    .love-text p {
+      margin: 14px 0;
+    }
+
+    .love-text .final-line {
+      margin-top: 22px;
+      font-weight: 600;
+      color: #ff4d6d;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #ff4d6d;
+      color: white;
+    }
+
+    /* HEARTS */
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      transform: rotate(45deg);
+      animation: float 6s infinite;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: '';
+      width: 20px;
+      height: 20px;
+      background: red;
+      border-radius: 50%;
+      position: absolute;
+    }
+
+    .heart::before { top: -10px; left: 0; }
+    .heart::after { left: -10px; top: 0; }
+
+    @keyframes float {
+      0% { transform: translateY(0) rotate(45deg); opacity: 1; }
+      100% { transform: translateY(-800px) rotate(45deg); opacity: 0; }
+    }
+
+    /* MUSIC BUTTON */
+    .music-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #ff4d6d;
+      color: white;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 30px;
+      cursor: pointer;
+      z-index: 999;
+    }
+  </style>
+</head>
+<body>
+
+<!-- MUSIC -->
+<audio id="bgMusic" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<button class="music-btn" onclick="toggleMusic()">🎵 Music</button>
+
+<!-- INTRO -->
+<div id="intro">
+  <h1>Will You Be My Valentine, Loly? ❤️</h1>
+  <div>
+    <button class="choice-btn yes" onclick="sayYes()">Yes ❤️</button>
+    <button class="choice-btn no" onmouseover="moveNo()">No 😢</button>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div id="mainContent">
+
+  <header>
+    <h1>I Knew You’d Say Yes ❤️</h1>
+    <p>You make my world brighter ✨</p>
+  </header>
+
+  <section>
+    <h2>Our Moments</h2>
+
+    <div class="gallery">
+      <div class="photo-wrapper" onclick="revealPhoto(this)">
+        <img src="images/pic1.jpg">
+        <div class="reveal-text">Tap to reveal 💖</div>
+      </div>
+
+      <div class="photo-wrapper" onclick="revealPhoto(this)">
+        <img src="images/pic2.jpg">
+        <div class="reveal-text">Tap to reveal 💖</div>
+      </div>
+
+      <div class="photo-wrapper" onclick="revealPhoto(this)">
+        <img src="images/pic3.jpg">
+        <div class="reveal-text">Tap to reveal 💖</div>
+      </div>
+
+      <div class="photo-wrapper" onclick="revealPhoto(this)">
+        <img src="images/pic4.jpg">
+        <div class="reveal-text">Tap to reveal 💖</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>From My Heart</h2>
+    <div class="love-text">
+      <p>Your heart is soft, your soul is beautiful 🤍</p>
+      <p>Every time I look at you, I see the kindest heart I have ever known 💖</p>
+      <p>Your presence makes everything warmer, your smile makes everything lighter ☀️✨</p>
+      <p>And your soul makes this world a better place 🌍💫</p>
+      <p>You are my comfort, my happiness, and my greatest gift 🎁💕</p>
+      <p class="final-line">My heart chose you — and it will always choose you 💘♾️</p>
+    </div>
+  </section>
+
+  <footer>
+    Made with ❤️ just for you <br>
+    😘😘 بحبك يا بت
+  </footer>
+
+</div>
+
+<script>
+  const music = document.getElementById("bgMusic");
+
+  function toggleMusic() {
+    music.paused ? music.play() : music.pause();
+  }
+
+  function sayYes() {
+    document.getElementById("intro").style.display = "none";
+    document.getElementById("mainContent").style.display = "block";
+    music.play();
+  }
+
+  function moveNo() {
+    const btn = document.querySelector(".choice-btn.no");
+    btn.style.transform =
+      `translate(${Math.random() * 200 - 100}px, ${Math.random() * 200 - 100}px)`;
+  }
+
+  function revealPhoto(element) {
+    element.classList.add("revealed");
+  }
+
+  function createHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.top = "100vh";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 6000);
+  }
+
+  setInterval(createHeart, 300);
+</script>
+
+</body>
+</html>
